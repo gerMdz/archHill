@@ -4,6 +4,6 @@
 
 ### Curso en Udemy
 
-[Cap 22](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14256996#content)
+[Cap 25](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257390#content)
 
 

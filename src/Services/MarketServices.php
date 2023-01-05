@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Services;
+
+use App\Traits\ConsumesExternalService;
+use stdClass;
+
+class MarketServices
+{
+    use ConsumesExternalService;
+
+    protected string $baseUri;
+    private $passwordClientSecret;
+    private $clientId;
+    private $clientSecret;
+    private $passwordClientId;
+
+    /**
+     * @param $baseUri
+     * @param $passwordClientSecret
+     * @param $clientId
+     * @param $clientSecret
+     * @param $passwordClientId
+     */
+    public function __construct($baseUri, $passwordClientSecret, $clientId, $clientSecret, $passwordClientId)
+    {
+        $this->baseUri = $baseUri;
+        $this->passwordClientSecret = $passwordClientSecret;
+        $this->clientId = $clientId;
+        $this->clientSecret = $clientSecret;
+        $this->passwordClientId = $passwordClientId;
+    }
+
+    /**
+     * @param array $responde
+     * @return void
+     */
+    public function CheckIfErrorResponse($responde): void
+    {
+
+    }
+
+    /**
+     * @param array $response
+     * @return stdClass
+     */
+    public function decodeResponse($response): stdClass
+    {
+
+    }
+
+    /**
+     * @param $queryParams
+     * @param $formsParams
+     * @param $headers
+     * @return void
+     */
+    public function resolveAuthorization(&$queryParams, &$formsParams, &$headers): void
+    {
+        $accessToken = $this->resolveAccessToken();
+
+        $headers['Authorization'] = $accessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function resolveAccessToken(): string
+    {
+        return 'Bearer '. $_ENV('BASE_TOKEN');
+    }
+}
