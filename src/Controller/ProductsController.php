@@ -28,7 +28,6 @@ class ProductsController extends AbstractController
     {
             $products = $this->marketServices->getProducts();
         return $this->render('products/index.html.twig', [
-            'controller_name' => 'ProductsController',
             'products' => $products
         ]);
     }
