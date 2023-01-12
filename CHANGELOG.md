@@ -6,4 +6,6 @@
 
 [Cap 25](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257390#content)
 
+#### hasta cap 30
+
 

@@ -41,12 +41,13 @@ class MarketServices
     }
 
     /**
-     * @param array $response
+     * @param string $response
      * @return stdClass
      */
-    public function decodeResponse($response): stdClass
+    public function decodeResponse(string $response): stdClass
     {
-
+        $decodeResponse = json_decode($response);
+        return $decodeResponse->data ?? $decodeResponse;
     }
 
     /**
