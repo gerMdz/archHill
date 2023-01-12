@@ -10,8 +10,10 @@ trait AuthorizesMarketRequests
      * @param $headers
      * @return void
      */
-    public function resolveAuthorization(&$queryParams, &$formsParams, &$headers): void
+    public function resolveAuthorization(&$queryParams, &$formsParams, &$headers)
     {
+
+
         $accessToken = $this->resolveAccessToken();
 
         $headers['Authorization'] = $accessToken;
@@ -22,6 +24,6 @@ trait AuthorizesMarketRequests
      */
     public function resolveAccessToken(): string
     {
-        return 'Bearer '. $_ENV('BASE_TOKEN');
+        return 'Bearer '. $this->base_token;
     }
 }

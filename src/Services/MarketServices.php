@@ -18,6 +18,7 @@ class MarketServices
     private $clientId;
     private $clientSecret;
     private $passwordClientId;
+    private $base_token;
 
     /**
      * @param $baseUri
@@ -25,14 +26,16 @@ class MarketServices
      * @param $clientId
      * @param $clientSecret
      * @param $passwordClientId
+     * @param $base_token
      */
-    public function __construct($baseUri, $passwordClientSecret, $clientId, $clientSecret, $passwordClientId)
+    public function __construct($baseUri, $passwordClientSecret, $clientId, $clientSecret, $passwordClientId, $base_token)
     {
         $this->baseUri = $baseUri;
         $this->passwordClientSecret = $passwordClientSecret;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->passwordClientId = $passwordClientId;
+        $this->base_token = $base_token;
     }
 
     /**
@@ -40,9 +43,9 @@ class MarketServices
      * @return string
      * @throws GuzzleException
      */
-    public function getProducts(): string
+    public function getProducts()
     {
-        return $this->makeRequest('Get', 'products');
+        return $this->makeRequest('GET', 'products');
     }
 
 

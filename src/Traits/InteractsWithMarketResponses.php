@@ -9,22 +9,23 @@ trait InteractsWithMarketResponses
 {
     /**
      * @param array $responde
-     * @return void
      * @throws Exception
      */
-    public function CheckIfErrorResponse(array $responde): void
+    public function CheckIfErrorResponse(array $responde)
     {
         if(isset($responde->error)){
             throw new Exception("Fallo en la respuesta {$responde->error}" );
         }
+
+        return $responde;
     }
 
     /**
-     * @param string $response
-     * @return stdClass
+     *
      */
-    public function decodeResponse(string $response): stdClass
+    public function decodeResponse( $response)
     {
+
         $decodeResponse = json_decode($response);
         return $decodeResponse->data ?? $decodeResponse;
     }
