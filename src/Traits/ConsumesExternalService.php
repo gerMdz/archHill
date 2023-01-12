@@ -13,16 +13,19 @@ trait ConsumesExternalService
      * @param array $queryParams
      * @param array $formsParams
      * @param array $headers
-     * @return string
+     * @return string|array
      * @throws GuzzleException
      */
-    public function MakeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = []): string
+    public function makeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = [])
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
 
+
+
         if (method_exists($this, 'resolveAuthorization')) {
+
             $this->resolveAuthorization($queryParams, $formsParams, $headers);
         }
 

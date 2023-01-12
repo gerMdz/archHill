@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
-use App\Traits\ConsumesExternalService;
+use App\Traits\AuthorizesMarketRequests, App\Traits\ConsumesExternalService, App\Traits\InteractsWithMarketResponses;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use stdClass;
 
 class MarketServices
 {
     use ConsumesExternalService;
+    use InteractsWithMarketResponses;
+    use AuthorizesMarketRequests;
 
     protected string $baseUri;
     private $passwordClientSecret;
     private $clientId;
     private $clientSecret;
     private $passwordClientId;
+    private $base_token;
 
     /**
      * @param $baseUri
@@ -21,52 +26,27 @@ class MarketServices
      * @param $clientId
      * @param $clientSecret
      * @param $passwordClientId
+     * @param $base_token
      */
-    public function __construct($baseUri, $passwordClientSecret, $clientId, $clientSecret, $passwordClientId)
+    public function __construct($baseUri, $passwordClientSecret, $clientId, $clientSecret, $passwordClientId, $base_token)
     {
         $this->baseUri = $baseUri;
         $this->passwordClientSecret = $passwordClientSecret;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->passwordClientId = $passwordClientId;
+        $this->base_token = $base_token;
     }
 
     /**
-     * @param array $responde
-     * @return void
-     */
-    public function CheckIfErrorResponse($responde): void
-    {
-
-    }
-
-    /**
-     * @param array $response
-     * @return stdClass
-     */
-    public function decodeResponse($response): stdClass
-    {
-
-    }
-
-    /**
-     * @param $queryParams
-     * @param $formsParams
-     * @param $headers
-     * @return void
-     */
-    public function resolveAuthorization(&$queryParams, &$formsParams, &$headers): void
-    {
-        $accessToken = $this->resolveAccessToken();
-
-        $headers['Authorization'] = $accessToken;
-    }
-
-    /**
+     * Obtiene lista de productos desde una api
      * @return string
+     * @throws GuzzleException
      */
-    public function resolveAccessToken(): string
+    public function getProducts()
     {
-        return 'Bearer '. $_ENV('BASE_TOKEN');
+        return $this->makeRequest('GET', 'products');
     }
+
+
 }

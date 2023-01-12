@@ -32,3 +32,4 @@ services:
             $clientSecret: '%env(CLIENT_SECRET)%'
             $passwordClientId: '%env(PASSWORD_CLIENT_ID)%'
             $passwordClientSecret: '%env(PASSWORD_CLIENT_SECRET)%'
+            $base_token: '%env(BASE_TOKEN)%'

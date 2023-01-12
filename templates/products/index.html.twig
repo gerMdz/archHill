@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductsController!{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h2>Productos</h2>
+            </div>
+        </div>
+        <div class="row">
+            {% for product in products%}
+                <div class="col-4">
+                    <div class="card">
+                        <img src="{{ product.picture}}" alt="HTTP Cliente" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.title }}</h5>
+                            <p class="card-text">{{ product.details }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
