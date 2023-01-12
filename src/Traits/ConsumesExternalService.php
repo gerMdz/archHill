@@ -16,7 +16,7 @@ trait ConsumesExternalService
      * @return string
      * @throws GuzzleException
      */
-    public function MakeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = []): string
+    public function makeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = []): string
     {
         $client = new Client([
             'base_uri' => $this->baseUri,

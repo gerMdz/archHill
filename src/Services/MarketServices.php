@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Traits\AuthorizesMarketRequests, App\Traits\ConsumesExternalService, App\Traits\InteractsWithMarketResponses;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use stdClass;
 
 class MarketServices
@@ -32,6 +33,16 @@ class MarketServices
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->passwordClientId = $passwordClientId;
+    }
+
+    /**
+     * Obtiene lista de productos desde una api
+     * @return string
+     * @throws GuzzleException
+     */
+    public function getProducts(): string
+    {
+        return $this->makeRequest('Get', 'products');
     }
 
 
