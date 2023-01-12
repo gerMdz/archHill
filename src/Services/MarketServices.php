@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Traits\ConsumesExternalService;
+use Exception;
 use stdClass;
 
 class MarketServices
@@ -34,10 +35,13 @@ class MarketServices
     /**
      * @param array $responde
      * @return void
+     * @throws Exception
      */
-    public function CheckIfErrorResponse($responde): void
+    public function CheckIfErrorResponse(array $responde): void
     {
-
+        if(isset($responde->error)){
+            throw new Exception("Fallo en la respuesta {$responde->error}" );
+        }
     }
 
     /**
