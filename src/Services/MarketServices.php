@@ -48,6 +48,14 @@ class MarketServices
         return $this->makeRequest('GET', 'products');
     }
 
+    /**
+     * @throws GuzzleException
+     */
+    public function getProduct($id): array|string
+    {
+        return $this->makeRequest('GET', "products/{$id}");
+    }
+
     public function getCategories()
     {
         return $this->makeRequest('GET', 'categories');
