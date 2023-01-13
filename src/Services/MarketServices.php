@@ -48,5 +48,10 @@ class MarketServices
         return $this->makeRequest('GET', 'products');
     }
 
+    public function getCategories()
+    {
+        return $this->makeRequest('GET', 'categories');
+    }
+
 
 }

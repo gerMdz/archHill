@@ -27,8 +27,10 @@ class ProductsController extends AbstractController
     public function index(): Response
     {
             $products = $this->marketServices->getProducts();
+            $categories = $this->marketServices->getCategories();
         return $this->render('products/index.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'categories' => $categories
         ]);
     }
 }
