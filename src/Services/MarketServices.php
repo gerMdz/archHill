@@ -61,5 +61,10 @@ class MarketServices
         return $this->makeRequest('GET', 'categories');
     }
 
+    public function getCategoryProducts($id)
+    {
+        return $this->makeRequest('GET', "categories/{$id}/products");
+    }
+
 
 }
