@@ -1,20 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoriaProductoController!{% endblock %}
+{% block title %}Hello ProductsController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/media/gerardo/Nuevo vol/Proyect/archHill/src/Controller/CategoriaProductoController.php'|file_link(0) }}">src/Controller/CategoriaProductoController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/media/gerardo/Nuevo vol/Proyect/archHill/templates/categoria_producto/index.html.twig'|file_link(0) }}">templates/categoria_producto/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <div class="col-10 mx-auto">
+                <div class="row">
+                    <div class="col">
+                        <h2>Productos</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-4">
+                            <a href="{{ path('app_products_show-product', {'title': product.title, 'id': product.identifier}) }}">
+                                <div class="card">
+                                    <img src="{{ product.picture }}" alt="HTTP Cliente" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.title }}</h5>
+                                        <p class="card-text">{{ product.details }}</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 {% endblock %}

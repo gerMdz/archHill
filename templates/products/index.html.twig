@@ -16,7 +16,7 @@
                     <div class="col">
                         <ul class="list-group">
                             {% for category in categories %}
-                                <a class="list-group-item" href="#">{{ category.title }}</a>
+                                <a class="list-group-item" href="{{ path('app_categoria_producto', {'title': category.title, 'id': category.identifier}) }}">{{ category.title }}</a>
                             {% endfor %}
                         </ul>
                     </div>
