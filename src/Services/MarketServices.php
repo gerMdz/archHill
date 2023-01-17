@@ -51,7 +51,7 @@ class MarketServices
     /**
      * @throws GuzzleException
      */
-    public function getProduct($id): array|string
+    public function getProduct($id)
     {
         return $this->makeRequest('GET', "products/{$id}");
     }

@@ -40,6 +40,8 @@ class ProductsController extends AbstractController
     #[Route('/products/{title}-{id}', name: 'app_products_show-product')]
     public function showProduct($title,$id): Response
     {
+
+
             $product = $this->marketServices->getProduct($id);
 
         return $this->render('products/show.html.twig', [

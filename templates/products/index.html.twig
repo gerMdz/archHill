@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
         <div class="row">
             <div class="col-2">
                 <div class="row">
@@ -32,13 +32,15 @@
                 <div class="row">
                     {% for product in products %}
                         <div class="col-4">
-                            <div class="card">
-                                <img src="{{ product.picture }}" alt="HTTP Cliente" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ product.title }}</h5>
-                                    <p class="card-text">{{ product.details }}</p>
+                            <a href="{{ path('app_products_show-product', {'title': product.title, 'id': product.identifier}) }}">
+                                <div class="card">
+                                    <img src="{{ product.picture }}" alt="HTTP Cliente" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.title }}</h5>
+                                        <p class="card-text">{{ product.details }}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
 
                         </div>
                     {% endfor %}
