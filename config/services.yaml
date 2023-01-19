@@ -33,3 +33,19 @@ services:
             $passwordClientId: '%env(PASSWORD_CLIENT_ID)%'
             $passwordClientSecret: '%env(PASSWORD_CLIENT_SECRET)%'
             $base_token: '%env(BASE_TOKEN)%'
+
+    App\Services\MarketAuthenticationService:
+        arguments:
+            $baseUri: '%env(BASE_URI)%'
+            $clientId: '%env(CLIENT_ID)%'
+            $clientSecret: '%env(CLIENT_SECRET)%'
+            $passwordClientId: '%env(PASSWORD_CLIENT_ID)%'
+            $passwordClientSecret: '%env(PASSWORD_CLIENT_SECRET)%'
+            $base_token: '%env(BASE_TOKEN)%'
+            $session: '@Symfony\Component\HttpFoundation\RequestStack'
+
+    app.traits.authorizes_market_requests:
+        class: App\Traits\AuthorizesMarketRequests
+        calls:
+            - setMarketAuthenticationService: [ '@App\Services\MarketAuthenticationService' ]
+
