@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use stdClass;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MarketAuthenticationService
 {
@@ -35,7 +36,8 @@ class MarketAuthenticationService
     public function __construct(
         $baseUri, $passwordClientSecret, $clientId,
         $clientSecret, $passwordClientId, $base_token,
-        RequestStack $session
+        RequestStack $session,
+        private UrlGeneratorInterface $urlGenerator
     )
     {
         $this->baseUri = $baseUri;
@@ -64,6 +66,21 @@ class MarketAuthenticationService
         $this->storeValidToken($tokenData, 'client_credentials');
 
         return $tokenData->access_token;
+   }
+
+    /**
+     * @return string
+     */
+    public function resolveAuthorizationUrl(): string
+    {
+        $query = http_build_query([
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->urlGenerator->generate('app_authorization', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'response_type' => 'code',
+            'scope' => 'purchase-product manage-products manage-account read-general'
+        ]);
+
+        return "{$this->baseUri}/oauth/authorize?{$query}";
    }
 
     /**
