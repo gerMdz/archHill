@@ -84,6 +84,28 @@ class MarketAuthenticationService
    }
 
     /**
+     * @param string $code
+     * @return stdClass
+     * @throws GuzzleException
+     */
+    public function getCodeToken(string $code): stdClass
+    {
+        $formParams = [
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri' => $this->urlGenerator->generate('app_authorization'),
+            'code' => $code
+        ];
+
+        $tokenData = $this->makeRequest('POST', 'oauth/token', [], $formParams);
+
+        $this->storeValidToken($tokenData, 'authorization_code');
+
+        return $tokenData->access_token;
+   }
+
+    /**
      * @param stdClass $tokenData
      * @param string $grantTYpe
      * @return void
