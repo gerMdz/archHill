@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Services\MarketAuthenticationService;
+use App\Services\MarketServices;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +14,16 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     private MarketAuthenticationService $marketAuthenticationService;
+    private MarketServices $marketServices;
 
     /**
      * @param MarketAuthenticationService $marketAuthenticationService
+     * @param MarketServices $marketServices
      */
-    public function __construct(MarketAuthenticationService $marketAuthenticationService)
+    public function __construct(MarketAuthenticationService $marketAuthenticationService, MarketServices $marketServices)
     {
         $this->marketAuthenticationService = $marketAuthenticationService;
+        $this->marketServices = $marketServices;
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -40,11 +45,18 @@ class SecurityController extends AbstractController
         );
     }
 
+    /**
+     * @throws GuzzleException
+     */
     #[Route(path: '/oidc/callback', name: 'app_authorization')]
     public function authorization(Request $request, AuthenticationUtils $authenticationUtils)
     {
         if ($request->query->has('code')) {
             $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
+
+            $userData = $this->marketServices->getUserInformation();
+
+            dd($userData);
 
             return;
         }

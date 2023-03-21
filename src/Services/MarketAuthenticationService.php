@@ -32,6 +32,7 @@ class MarketAuthenticationService
      * @param $passwordClientId
      * @param $base_token
      * @param RequestStack $session
+     * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
         $baseUri, $passwordClientSecret, $clientId,
@@ -97,6 +98,7 @@ class MarketAuthenticationService
             'redirect_uri' => $this->urlGenerator->generate('app_authorization'),
             'code' => $code
         ];
+
 
         $tokenData = $this->makeRequest('POST', 'oauth/token', [], $formParams);
 
