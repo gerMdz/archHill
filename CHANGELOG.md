@@ -4,8 +4,15 @@
 
 ### Curso en Udemy
 
-[Cap 30](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257496#content)
+[Cap 44](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257968#announcements)
 
-#### hasta cap 30
+#### Hasta el cap 44 (sin)
+
+
+####
+
+Cap. 42. Obteniendo un token válido
+
+Cap. 43. Obteniendo info del usuario
 
 

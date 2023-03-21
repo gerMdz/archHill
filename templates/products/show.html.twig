@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-10 mx-auto">
+                <div class="row">
+                    <div class="col">
+                        <h2>Producto: {{ product.title }} ({{ product.stock }})</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="#" class="btn btn-success btn-lg">Comprar</a>
+                    </div>
+                </div>
+                <div class="row">
+
+                        <div class="col-4">
+                            <div class="card">
+                                <img src="{{ product.picture }}" alt="HTTP Cliente" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.title }}</h5>
+                                    <p class="card-text">{{ product.details }}</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+

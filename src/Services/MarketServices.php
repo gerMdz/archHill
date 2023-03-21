@@ -48,5 +48,32 @@ class MarketServices
         return $this->makeRequest('GET', 'products');
     }
 
+    /**
+     * @throws GuzzleException
+     */
+    public function getProduct($id)
+    {
+        return $this->makeRequest('GET', "products/{$id}");
+    }
+
+    public function getCategories()
+    {
+        return $this->makeRequest('GET', 'categories');
+    }
+
+    public function getCategoryProducts($id)
+    {
+        return $this->makeRequest('GET', "categories/{$id}/products");
+    }
+
+    /**
+     * @return stdClass
+     * @throws GuzzleException
+     */
+    public function getUserInformation(): stdClass
+    {
+        return $this->makeRequest('GET', "users/me");
+    }
+
 
 }

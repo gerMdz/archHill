@@ -13,7 +13,6 @@ trait ConsumesExternalService
      * @param array $queryParams
      * @param array $formsParams
      * @param array $headers
-     * @return string|array
      * @throws GuzzleException
      */
     public function makeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = [])
@@ -22,18 +21,18 @@ trait ConsumesExternalService
             'base_uri' => $this->baseUri,
         ]);
 
-
-
         if (method_exists($this, 'resolveAuthorization')) {
-
-            $this->resolveAuthorization($queryParams, $formsParams, $headers);
+            $this->resolveAuthorization($queryParams, $formParams, $headers);
         }
 
-        $response =  $client->request($method, $requestUri, [
-            'query' => $queryParams,
-            'forms_param' => $formsParams,
-            'headers' => $headers
+        $bodyType = 'form_params';
 
+
+
+        $response = $client->request($method, $requestUri, [
+            'query' => $queryParams,
+            $bodyType => $formsParams,
+            'headers' => $headers,
         ]);
 
         $response = $response->getBody()->getContents();
@@ -42,12 +41,10 @@ trait ConsumesExternalService
             $response = $this->decodeResponse($response);
         }
 
-        if (method_exists($this, 'CheckIfErrorResponse')) {
-            $response = $this->CheckIfErrorResponse($response);
+        if (method_exists($this, 'checkIfErrorResponse')) {
+            $this->checkIfErrorResponse($response);
         }
 
         return $response;
-
-
     }
 }

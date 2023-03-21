@@ -27,8 +27,25 @@ class ProductsController extends AbstractController
     public function index(): Response
     {
             $products = $this->marketServices->getProducts();
+            $categories = $this->marketServices->getCategories();
         return $this->render('products/index.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    #[Route('/products/{title}-{id}', name: 'app_products_show-product')]
+    public function showProduct($title,$id): Response
+    {
+
+
+            $product = $this->marketServices->getProduct($id);
+
+        return $this->render('products/show.html.twig', [
+            'product' => $product,
         ]);
     }
 }

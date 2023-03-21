@@ -8,10 +8,11 @@ use stdClass;
 trait InteractsWithMarketResponses
 {
     /**
-     * @param array $responde
+
+     * @return array
      * @throws Exception
      */
-    public function CheckIfErrorResponse(array $responde)
+    public function CheckIfErrorResponse($responde)
     {
         if(isset($responde->error)){
             throw new Exception("Fallo en la respuesta {$responde->error}" );
