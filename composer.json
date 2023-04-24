@@ -73,6 +73,8 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.48"
+        "symfony/debug-bundle": "6.2.*",
+        "symfony/maker-bundle": "^1.48",
+        "symfony/var-dumper": "6.2.*"
     }
 }
