@@ -57,6 +57,7 @@ class SecurityController extends AbstractController
     public function authorization(Request $request, AuthenticationUtils $authenticationUtils)
     {
 
+
         if ($request->query->has('code')) {
 
 
@@ -124,7 +125,6 @@ class SecurityController extends AbstractController
     public function loginUser(User $user, $remember = true):void
     {
         $this->container->get('request_stack')->getSession()->migrate();
-
 
     }
 }

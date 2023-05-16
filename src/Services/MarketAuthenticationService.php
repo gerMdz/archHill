@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Traits\ConsumesExternalService, App\Traits\InteractsWithMarketResponses;
-use Exception;
+use App\Traits\ConsumesExternalService;
+use App\Traits\InteractsWithMarketResponses;
 use GuzzleHttp\Exception\GuzzleException;
 use stdClass;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -52,7 +52,7 @@ class MarketAuthenticationService
 
     public function getClientCredentialsToken()
     {
-        if ($token = $this->existingValidClientCredentialsToken()){
+        if ($token = $this->existingValidClientCredentialsToken()) {
             return $token;
         }
 
@@ -67,7 +67,7 @@ class MarketAuthenticationService
         $this->storeValidToken($tokenData, 'client_credentials');
 
         return $tokenData->access_token;
-   }
+    }
 
     /**
      * @return string
@@ -82,7 +82,7 @@ class MarketAuthenticationService
         ]);
 
         return "{$this->baseUri}/oauth/authorize?{$query}";
-   }
+    }
 
     /**
      * @param string $code
@@ -105,7 +105,32 @@ class MarketAuthenticationService
         $this->storeValidToken($tokenData, 'authorization_code');
 
         return $tokenData;
-   }
+    }
+
+    /**
+     * @param string $username
+     * @param string $password
+     * @return stdClass
+     * @throws GuzzleException
+     */
+    public function getPasswordToken(string $username, string $password): stdClass
+    {
+        $formParams = [
+            'grant_type' => 'password',
+            'client_id' => $this->passwordClientId,
+            'client_secret' => $this->passwordClientSecret,
+            'username' => $username,
+            'password' => $password,
+            'scope' => 'purchase-product manage-products manage-account read-general'
+        ];
+
+        $tokenData = $this->makeRequest('POST', 'oauth/token', [], $formParams);
+
+        $this->storeValidToken($tokenData, 'password');
+
+        return $tokenData;
+    }
+
 
     /**
      * @param stdClass $tokenData
@@ -119,7 +144,7 @@ class MarketAuthenticationService
         $tokenData->access_token = "{$tokenData->token_type} {$tokenData->access_token}";
         $tokenData->grant_type = $grantTYpe;
 
-        $this->session->getSession()->set('current_token',  $tokenData);
+        $this->session->getSession()->set('current_token', $tokenData);
     }
 
     /**
@@ -128,9 +153,9 @@ class MarketAuthenticationService
     public function existingValidClientCredentialsToken(): bool|string
     {
         $now = time();
-        if($this->session->getSession()->has('current_token')){
+        if ($this->session->getSession()->has('current_token')) {
             $tokenData = $this->session->getSession()->get('current_token');
-            if($now < $tokenData->token_expires_at){
+            if ($now < $tokenData->token_expires_at) {
                 return $tokenData->access_token;
             }
         }
