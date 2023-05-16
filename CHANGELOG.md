@@ -4,7 +4,7 @@
 
 ### Curso en Udemy
 
-[Cap 44](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257968#announcements)
+[Cap 48](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257980#questions)
 
 #### Hasta el cap 44 (sin)
 
