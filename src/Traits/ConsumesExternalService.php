@@ -27,8 +27,6 @@ trait ConsumesExternalService
 
         $bodyType = 'form_params';
 
-
-
         $response = $client->request($method, $requestUri, [
             'query' => $queryParams,
             $bodyType => $formsParams,
