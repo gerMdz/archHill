@@ -6,10 +6,12 @@ use App\Entity\User;
 use App\Services\MarketAuthenticationService;
 use App\Services\MarketServices;
 use App\Services\UserService;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,21 +59,32 @@ class SecurityController extends AbstractController
     public function authorization(Request $request, AuthenticationUtils $authenticationUtils)
     {
 
-
-        if ($request->query->has('code')) {
-
-
-
-            $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
-
-            $userData = $this->marketServices->getUserInformation();
-
-            $user = $this->registerOrUpdate($userData, $tokenData);
-
-            $this->loginUser($user);
+        $data = 'Se canceló el proceso';
+        try {
 
 
-            return $this->redirectToRoute('target_path');
+            if ($request->query->has('code')) {
+
+
+                $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
+
+                $userData = $this->marketServices->getUserInformation();
+
+                $user = $this->registerOrUpdate($userData, $tokenData);
+
+                $this->loginUser($user);
+
+
+                return $this->redirectToRoute('target_path');
+
+
+            }
+        } catch (ClientException $exception){
+            $mensaje = $exception->getResponse()->getBody();
+            if(in_array('invalid_credentials', $mensaje)){
+                $data = $mensaje;
+            }
+            throw $exception;
 
         }
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -82,7 +95,7 @@ class SecurityController extends AbstractController
             [
                 'last_username' => $lastUsername,
                 'error' => [
-                    'data' => 'Se canceló el proceso',
+                    'data' => $data,
                 ],
                 'authorizationUri' => $authorizationUri,
             ]

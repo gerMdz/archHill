@@ -185,5 +185,8 @@
         "files": [
             "config/packages/reset_password.yaml"
         ]
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.13.0"
     }
 }
