@@ -11,12 +11,12 @@
             <div class="col-10 mx-auto">
                 <div class="row">
                     <div class="col">
-                        <h2>Producto: {{ product.title }} ({{ product.stock }})</h2>
+                        <h2>Producto: {{ product.title }} ({{ product.stock }}) </h2>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a href="#" class="btn btn-success btn-lg">Comprar</a>
+                        <a href="{{ path('app_products_compra-product', {'title': product.title, 'id': product.identifier }) }}" class="btn btn-success btn-lg">Comprar</a>
                     </div>
                 </div>
                 <div class="row">

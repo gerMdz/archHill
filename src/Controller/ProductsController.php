@@ -39,7 +39,6 @@ class ProductsController extends AbstractController
     public function showProduct($title, $id): Response
     {
 
-
         $product = $this->marketServices->getProduct($id);
 
         return $this->render('products/show.html.twig', compact('product'));
@@ -59,6 +58,8 @@ class ProductsController extends AbstractController
 
 
         $product = $this->marketServices->getProduct($id);
+
+
 
         return $this->render('products/show.html.twig', compact('product'));
     }

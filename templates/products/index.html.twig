@@ -9,6 +9,36 @@
             <div class="col-2">
                 <div class="row">
                     <div class="col">
+                        <h4>Productos</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse navbar-collapse"
+                             id="navbarSupportedContent"
+                        >
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item">
+                                    <a href="{{ path('app_products_publicados-product') }}"
+                                       class="btn btn-success">
+                                        Publicar
+                                    </a>
+                                </li>
+                                {% if is_granted('ROLE_USER') %}
+                                    <li class="nav-item">
+                                        <a href="{{ path('app_compras_productos') }}"
+                                           class="btn btn-link">
+                                            Productos
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <h4>Categorías</h4>
                     </div>
                 </div>
@@ -16,7 +46,8 @@
                     <div class="col">
                         <ul class="list-group">
                             {% for category in categories %}
-                                <a class="list-group-item" href="{{ path('app_categoria_producto', {'title': category.title, 'id': category.identifier}) }}">{{ category.title }}</a>
+                                <a class="list-group-item"
+                                   href="{{ path('app_categoria_producto', {'title': category.title, 'id': category.identifier}) }}">{{ category.title }}</a>
                             {% endfor %}
                         </ul>
                     </div>
