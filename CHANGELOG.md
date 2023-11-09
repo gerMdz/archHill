@@ -4,7 +4,7 @@
 
 ### Curso en Udemy
 
-[Cap 51](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257992#questions)
+[Cap 52](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257994#questions)
 
 #### Ver el tema del navbar
 

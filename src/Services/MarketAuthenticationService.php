@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\User;
 use App\Traits\ConsumesExternalService;
 use App\Traits\InteractsWithMarketResponses;
 use GuzzleHttp\Exception\GuzzleException;
@@ -78,8 +79,10 @@ class MarketAuthenticationService
             'client_id' => $this->clientId,
             'redirect_uri' => $this->urlGenerator->generate('app_authorization', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'response_type' => 'code',
-            'scope' => 'purchase-product manage-products manage-account read-general'
+            'scope' => ''
         ]);
+
+//        dd($query);
 
         return "{$this->baseUri}/oauth/authorize?{$query}";
     }
@@ -160,6 +163,17 @@ class MarketAuthenticationService
             }
         }
         return false;
+    }
+
+    /**
+     * Obtiene un access token desde un usuario autenticado
+     *
+     */
+    public function getAuthenticatedUserToken()
+    {
+        $user = $this->session->getCurrentRequest()->getUser();
+        /** @var User $user */
+        return $user->getAccessToken();
     }
 
 }

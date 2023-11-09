@@ -21,15 +21,18 @@ class SecurityController extends AbstractController
 {
     private MarketAuthenticationService $marketAuthenticationService;
     private MarketServices $marketServices;
+    private UserService $userService;
 
     /**
      * @param MarketAuthenticationService $marketAuthenticationService
      * @param MarketServices $marketServices
+     * @param UserService $userService
      */
-    public function __construct(MarketAuthenticationService $marketAuthenticationService, MarketServices $marketServices)
+    public function __construct(MarketAuthenticationService $marketAuthenticationService, MarketServices $marketServices, UserService $userService)
     {
         $this->marketAuthenticationService = $marketAuthenticationService;
         $this->marketServices = $marketServices;
+        $this->userService = $userService;
     }
 
     #[Route(path: '/login', name: 'app_login')]
@@ -60,11 +63,10 @@ class SecurityController extends AbstractController
     {
 
         $data = 'Se canceló el proceso';
+
         try {
 
-
             if ($request->query->has('code')) {
-
 
                 $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
 
@@ -81,6 +83,8 @@ class SecurityController extends AbstractController
             }
         } catch (ClientException $exception){
             $mensaje = $exception->getResponse()->getBody();
+            dd($exception);
+
             if(in_array('invalid_credentials', $mensaje)){
                 $data = $mensaje;
             }
@@ -115,16 +119,15 @@ class SecurityController extends AbstractController
      * @param $tokenData
      * @return User
      */
-    public function registerOrUpdate(\stdClass $userData, $tokenData, UserService $userService): User
+    public function registerOrUpdate(\stdClass $userData, $tokenData): User
     {
 
-        return $userService->updateOrCreate(
+        return $this->userService->updateOrCreate(
             ['service_id' => $userData->identifier],
             [
                 'grantType' => $tokenData->grantType,
                 'refreshToken' => $tokenData->refreshToken,
                 'tokenExpiresAt' => $tokenData->tokenExpiresAt,
-                'refreshToken' => $tokenData->refreshToken
             ]
         );
 

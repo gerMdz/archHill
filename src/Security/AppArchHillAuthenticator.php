@@ -106,7 +106,6 @@ class AppArchHillAuthenticator extends AbstractLoginFormAuthenticator
                 'grantType' => $tokenData->grantType,
                 'refreshToken' => $tokenData->refreshToken,
                 'tokenExpiresAt' => $tokenData->tokenExpiresAt,
-                'refreshToken' => $tokenData->refreshToken
             ]
         );
 

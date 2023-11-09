@@ -3,3 +3,12 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+home:
+    path: /
+    controller: App\Controller\DashboardController::index
+
+index:
+    path: /home
+    controller: App\Controller\DashboardController::index
+
