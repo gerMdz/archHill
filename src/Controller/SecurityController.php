@@ -68,7 +68,8 @@ class SecurityController extends AbstractController
 
             if ($request->query->has('code')) {
 
-                $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
+//                $tokenData = $this->marketAuthenticationService->getCodeToken($request->query->get('code'));
+                $tokenData = $this->marketAuthenticationService->getClientCredentialsToken();
 
                 $userData = $this->marketServices->getUserInformation();
 

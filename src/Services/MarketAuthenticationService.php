@@ -79,7 +79,7 @@ class MarketAuthenticationService
             'client_id' => $this->clientId,
             'redirect_uri' => $this->urlGenerator->generate('app_authorization', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'response_type' => 'code',
-            'scope' => ''
+            'scope' => 'purchase-product manage-products manage-account read-general'
         ]);
 
 //        dd($query);
