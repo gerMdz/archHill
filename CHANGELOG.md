@@ -26,4 +26,7 @@ Cap. 43. Obteniendo info del usuario
 Then open your browser, go to "/register" and enjoy your new form!
 
 
+##### Next
+[Cap 53](https://www.udemy.com/course/cliente-http-peticiones-laravel-guzzle-consumir-apis-servicios/learn/lecture/14257996#questions)
+
 

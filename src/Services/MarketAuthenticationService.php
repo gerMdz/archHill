@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Traits\ConsumesExternalService;
 use App\Traits\InteractsWithMarketResponses;
 use GuzzleHttp\Exception\GuzzleException;
@@ -20,6 +21,7 @@ class MarketAuthenticationService
     private $passwordClientId;
     private $base_token;
     private RequestStack $session;
+    private UserRepository $userRepository;
 
     use ConsumesExternalService;
     use InteractsWithMarketResponses;
@@ -33,13 +35,14 @@ class MarketAuthenticationService
      * @param $passwordClientId
      * @param $base_token
      * @param RequestStack $session
+     * @param UserRepository $userRepository
      * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(
         $baseUri, $passwordClientSecret, $clientId,
         $clientSecret, $passwordClientId, $base_token,
-        RequestStack $session,
-        private UrlGeneratorInterface $urlGenerator
+        RequestStack $session, UserRepository $userRepository,
+        private readonly UrlGeneratorInterface $urlGenerator
     )
     {
         $this->baseUri = $baseUri;
@@ -49,8 +52,12 @@ class MarketAuthenticationService
         $this->passwordClientSecret = $passwordClientSecret;
         $this->base_token = $base_token;
         $this->session = $session;
+        $this->userRepository = $userRepository;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function getClientCredentialsToken()
     {
         if ($token = $this->existingValidClientCredentialsToken()) {
@@ -168,11 +175,57 @@ class MarketAuthenticationService
     /**
      * Obtiene un access token desde un usuario autenticado
      *
+     * @throws GuzzleException
      */
     public function getAuthenticatedUserToken()
     {
-        $user = $this->session->getCurrentRequest()->getUser();
         /** @var User $user */
+        $user = $this->session->getCurrentRequest()->getUser();
+
+
+        if ($user->getAccessToken() !== null
+            && $user->getTokenExpiresAt() > new \DateTimeImmutable()) {
+            return $user->getAccessToken();
+        }
+
+        return $this->refreshAuthenticatedUserToken($user);
+
+
+    }
+
+    /**
+     * @param User $user
+     * @return string|null
+     * @throws GuzzleException
+     */
+    public function refreshAuthenticatedUserToken(User $user): string|null
+    {
+
+        $clientId = $this->clientId;
+        $clientSecret = $this->clientSecret;
+
+        if ($user->getGrantType() == 'password') {
+            $clientId = $this->passwordClientId;
+            $clientSecret = $this->passwordClientSecret;
+        }
+
+
+        $formParams = [
+            'grant_type' => 'refresh_token',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'refresh_token' => $user->getRefreshToken(),
+        ];
+
+        $tokenData = $this->makeRequest('POST', 'oauth/token', [], $formParams);
+
+        $this->storeValidToken($tokenData, $user->getGrantType());
+
+        $user->setAccessToken($tokenData['access_token']);
+        $user->setRefreshToken($tokenData['refresh_token']);
+        $user->setTokenExpiresAt($tokenData['token_expires_at']);
+        $this->userRepository->save($user);
+
         return $user->getAccessToken();
     }
 

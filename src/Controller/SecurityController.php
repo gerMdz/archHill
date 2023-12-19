@@ -11,7 +11,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -83,12 +82,13 @@ class SecurityController extends AbstractController
 
             }
         } catch (ClientException $exception){
-            $mensaje = $exception->getResponse()->getBody();
-            dd($exception);
+            $mensaje = (string)$exception->getResponse()->getBody();
 
-            if(in_array('invalid_credentials', $mensaje)){
+            if (str_contains($mensaje, 'invalid_credentials')
+                || str_contains($mensaje, 'Unauthorized')) {
                 $data = $mensaje;
             }
+
             throw $exception;
 
         }
@@ -139,7 +139,7 @@ class SecurityController extends AbstractController
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
      */
-    public function loginUser(User $user, $remember = true):void
+    public function loginUser(User $user, $remember = true): void
     {
         $this->container->get('request_stack')->getSession()->migrate();
 

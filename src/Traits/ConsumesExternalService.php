@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use stdClass;
 
 trait ConsumesExternalService
 {
@@ -13,6 +14,7 @@ trait ConsumesExternalService
      * @param array $queryParams
      * @param array $formsParams
      * @param array $headers
+     * @return mixed|string|stdClass
      * @throws GuzzleException
      */
     public function makeRequest($method, $requestUri, array $queryParams = [], array $formsParams = [], array $headers = [])
