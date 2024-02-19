@@ -46,6 +46,11 @@
 {% endif %}
 </div>
 
+{% block nav %}
+    {% if(app.user) %}
+        {{ app.user }}
+    {% endif %}
+{% endblock %}
 {% block body %}{% endblock %}
 </body>
 </html>

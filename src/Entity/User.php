@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Services\MarketServices;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,6 +50,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+
+    public function __construct(protected MarketServices $marketServices)
+    {
+    }
 
     public function getId(): ?int
     {
@@ -201,5 +207,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function getName()
+    {
+        $userInfo = $this->marketServices->getUserInformation();
+        return $userInfo->name;
     }
 }

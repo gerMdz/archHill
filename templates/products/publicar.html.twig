@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publicar{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <div class="col-sm-12">
+        <h1>Producto</h1>
+
+        {{ form_start(productForm, {'multipart':true}) }}
+        {{ form_row(productForm.title) }}
+        {{ form_row(productForm.details) }}
+        {{ form_row(productForm.stock) }}
+        {{ form_row(productForm.category) }}
+        <div class="custom-file mt-1" >
+            {{ form_row(productForm.picture) }}
+        </div>
+
+
+        <button type="submit" class="btn">Publicar</button>
+        {{ form_end(productForm) }}
+    </div>
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\ProductsType;
+use App\Form\RegistrationFormType;
 use App\Services\MarketServices;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,13 +54,15 @@ class ProductsController extends AbstractController
         return $this->render('products/show.html.twig', compact('product'));
     }
 
+    /**
+     * @throws GuzzleException
+     */
     #[Route('/products/publicados', name: 'app_products_publicados-product')]
     public function publicadoProduct(Request $request): Response
     {
 
-
+        $id = $request->get('id');
         $product = $this->marketServices->getProduct($id);
-
 
 
         return $this->render('products/show.html.twig', compact('product'));
@@ -72,4 +76,21 @@ class ProductsController extends AbstractController
 
         return $this->render('products/show.html.twig', compact('product'));
     }
+    #[Route('/products/publicar', name: 'app_products_publicar')]
+    public function publicarProducto(Request $request): Response
+    {
+//        $products = $this->marketServices->getCategoryProducts($id);
+        $categories = $this->marketServices->getCategories();
+
+
+        $form = $this->createForm(ProductsType::class);
+//        $form->handleRequest($request);
+
+        return $this->render('products/publicar.html.twig', [
+            'categories' => $categories,
+            'productForm' => $form->createView(),
+        ]);
+    }
+
+
 }
