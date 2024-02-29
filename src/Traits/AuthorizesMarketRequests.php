@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Services\MarketAuthenticationService;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -36,14 +37,17 @@ trait AuthorizesMarketRequests
      * @param $formsParams
      * @param $headers
      * @return void
+     * @throws GuzzleException
      */
     public function resolveAuthorization(&$queryParams, &$formsParams, &$headers): void
     {
-
         $accessToken = $this->resolveAccessToken();
         $headers['Authorization'] = $accessToken;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function resolveAccessToken(): string
     {
         if(isset($this->requestStack) && $this->requestStack->getCurrentRequest()->getUser()) {
